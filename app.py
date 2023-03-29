@@ -17,7 +17,7 @@ class Task(db.Model):
 def get_tasks():
     tasks = Task.query.all()
     return jsonify([{
-        'id': task.id,
+        'id': str(task.id),
         'title': task.title,
         'description': task.description,
         'is_completed': task.is_completed
