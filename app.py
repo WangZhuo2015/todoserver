@@ -7,7 +7,7 @@ db = SQLAlchemy(app)
 
 
 class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(128), primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text, nullable=True)
     is_completed = db.Column(db.Boolean, default=False)
@@ -17,7 +17,7 @@ class Task(db.Model):
 def get_tasks():
     tasks = Task.query.all()
     return jsonify([{
-        'id': str(task.id),
+        'id': task.id,
         'title': task.title,
         'description': task.description,
         'is_completed': task.is_completed
