@@ -16,7 +16,12 @@ class Task(db.Model):
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
     tasks = Task.query.all()
-    return jsonify([task.content for task in tasks])
+    return jsonify([{
+        'id': task.id,
+        'title': task.title,
+        'description': task.description,
+        'is_completed': task.is_completed
+    } for task in tasks])
 
 
 @app.route('/tasks', methods=['POST'])
