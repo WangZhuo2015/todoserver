@@ -28,19 +28,16 @@ def get_tasks():
 def create_or_update_task():
     data = request.get_json()
     task_id = data.get('id')
-
-    if task_id:
-        task = Task.query.get(task_id)
-        if task:
-            task.title = data.get('title', task.title)
-            task.description = data.get('description', task.description)
-            task.is_completed = data.get('is_completed', task.is_completed)
-        else:
-            return jsonify({'message': 'Task not found'}), 404
+    task = Task.query.get(task_id)
+    if task:
+        task.title = data.get('title', task.title)
+        task.description = data.get('description', task.description)
+        task.is_completed = data.get('is_completed', task.is_completed)
     else:
-        task = Task(title=data['title'], description=data.get('description'))
+        task = Task(id=task_id, title=data['title'],
+                    description=data.get('description'),
+                    is_completed=data.get('is_completed', False))
         db.session.add(task)
-
     db.session.commit()
 
     return jsonify(
